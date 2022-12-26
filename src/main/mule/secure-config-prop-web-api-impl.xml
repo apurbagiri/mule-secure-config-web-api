@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="string" doc:id="011f9c27-9a6b-47a6-bd37-cc67bbf2e98a">
+		<logger level="INFO" message="post:\string:multipart\form-data:secure-config-prop-web-api-config" />
+	</flow>
+	<flow name="file" doc:id="067099dc-dfeb-43f8-b8a9-257ad7d7220a">
+        <logger level="INFO" message="post:\file:multipart\form-data:secure-config-prop-web-api-config" />		
+	</flow>
+	<flow name="file-level" doc:id="d3bc00ed-73a5-4b97-9707-ef7945a25404">
+        <logger level="INFO" message="post:\file-level:multipart\form-data:secure-config-prop-web-api-config" />	
+	</flow>
+</mule>
