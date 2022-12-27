@@ -83,6 +83,20 @@ output application/json
                         <ee:set-variable variableName="httpStatus">501</ee:set-variable>
                     </ee:variables>
                 </ee:transform>
-            </on-error-propagate>		
-	</error-handler>
+            </on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="89dff4ec-86e8-4da5-a0f8-399cbf1f112b" type="ANY">
+			<ee:transform doc:name="Transform Message" doc:id="92bbda3a-6813-4146-9260-22d062c0dbb8" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var errorMessage = (error.description as String) default ""
+---
+{
+	message: errorMessage
+}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</on-error-propagate>		
+	
+</error-handler>
 </mule>
