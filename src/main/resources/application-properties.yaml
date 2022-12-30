@@ -1,8 +1,0 @@
-application:
-  input:
-    file:
-      contentType: "application/x-yaml,text/yaml,application/octet-stream',text/x-java-properties,text/plain"
-      contentType-yaml: "application/x-yaml,text/yaml"
-      contentType-prop: "text/x-java-properties"
-  process:
-    tempFileName: "tempInputPropFile"
