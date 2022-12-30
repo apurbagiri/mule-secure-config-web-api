@@ -11,7 +11,15 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
     <http:listener-config name="secure-config-prop-web-api-httpListenerConfig">
         <http:listener-connection host="0.0.0.0" port="8081" />
-    </http:listener-config>
+		<http:listener-interceptors >
+			<http:cors-interceptor >
+				<http:origins >
+					<http:public-resource />
+				</http:origins>
+			</http:cors-interceptor>
+		</http:listener-interceptors>
+    
+</http:listener-config>
     <apikit:config name="secure-config-prop-web-api-config" api="mule-secure-config-web-api.raml" outboundHeadersMapName="outboundHeaders" httpStatusVarName="httpStatus" />    
 	<configuration doc:name="Configuration" doc:id="c746337e-1f55-434a-81af-fedec78a9f08" defaultErrorHandler-ref="globalErrorHandler" />
     <file:config name="File_Config" doc:name="File Config" doc:id="87ad8d49-da0e-47a5-b42e-4b7005889308" />

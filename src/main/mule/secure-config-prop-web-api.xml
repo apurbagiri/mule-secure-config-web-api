@@ -24,7 +24,11 @@
         </http:listener>
         <apikit:console config-ref="secure-config-prop-web-api-config" />
     </flow>
-    <flow name="post:\file-level:multipart\form-data:secure-config-prop-web-api-config">
+    <flow name="secure-config-prop-web" doc:id="0cb9cdd2-361a-41df-9edf-e9bfbf25d8b9" >
+		<http:listener doc:name="Listener" doc:id="dff45bbf-b911-4ef2-9d4c-1943ee1d8394" config-ref="secure-config-prop-web-api-httpListenerConfig" path="/"/>
+		<parse-template doc:name="Parse Template" doc:id="04d34720-5e42-427b-8499-93a39cf386a0" location="web\index.html"/>
+	</flow>
+	<flow name="post:\file-level:multipart\form-data:secure-config-prop-web-api-config">
 		<flow-ref doc:name="file-level" doc:id="b38c0c84-8691-47a1-bce5-c1da11d70365" name="file-level"/>
     </flow>
     <flow name="post:\file:multipart\form-data:secure-config-prop-web-api-config">

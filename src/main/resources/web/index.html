@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<link rel="shortcut icon" type="image/x-icon" href="https://raw.githubusercontent.com/apurbagiri/mule-secure-config-web-api/static-resources/favicon.ico?raw=true"/>
+
+		<!-- Stylesheets -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<style>
+		
+			.form-control.no-valid-validate:valid {
+				border-color: #ced4da;
+				padding-right: .75rem;
+				background: none;
+			}
+			
+			.form-control.no-valid-validate:valid:focus {
+				border-color: #ced4da;
+				background-color: #fff;
+				border-color: #80bdff;
+				outline: 0;
+				box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+			}
+			
+			.custom-select.no-valid-validate:valid {
+				border-color: #ced4da;
+				padding-right: .75rem;
+				background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right .75rem center/8px 10px;
+			}
+	
+			.custom-select.no-valid-validate:valid:focus {
+				border-color: #80bdff;
+				outline: 0;
+				box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
+			}	
+
+		</style>
+
+		<title>MuleSoft Secure Properties Tool</title>
+    </head>
+
+    <body class="bg-light">
+        <div class="container">
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4" src="https://raw.githubusercontent.com/apurbagiri/mule-secure-config-web-api/static-resources/mulesoft_logo.png?raw=true" alt=""">
+                <h1>MuleSoft Secure Properties Tool</h1>
+                <p class="lead">Encrypt and decrypt configuration properties for MuleSoft applications. Supports strings, <em>.yaml</em> and <em>.properties</em> files. <br/>
+					For more details, click <a href="https://docs.mulesoft.com/mule-runtime/4.4/secure-configuration-properties">here</a></p>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                      <div class="card-header text-center">
+						<h6>Encryption Options</h6>
+                      </div>
+					  <div class="card-body">
+							  <form id="option-form" action="api/" method="post" enctype="multipart/form-data" autocomplete="off">	  
+								<div class="row">
+									<div class="col-md-4 mb-3 mt-3">
+										<label for="operation">Operation</label>
+										<select class="custom-select no-valid-validate" id="operation" name="operation" required>
+											<option value="encrypt" selected>Encrypt</option>
+											<option value="decrypt">Decrypt</option>
+										</select>
+									</div>
+									<div class="col-md-4 mb-3 mt-3">
+										<label for="algorithm">Algorithm</label>
+										<select class="custom-select no-valid-validate" id="algorithm" name="algorithm" required>
+											<option value="AES" selected>AES (default)</option>
+											<option value="Blowfish">Blowfish</option>
+											<option value="DES">DES</option>
+											<option value="DESede">DESede</option>
+											<option value="RC2">RC2</option>
+											<option value="RSA">RSA</option>
+										</select>
+									</div>
+									<div class="col-md-4 mb-3 mt-3">
+										<label for="mode">Mode of Operation</label>
+										<select class="custom-select no-valid-validate" id="mode" name="mode" required>
+											<option value="CBC" selected>CBC (default)</option>
+											<option value="CFB">CFB</option>
+											<option value="ECB">ECB</option>
+											<option value="OFB">OFB</option>
+										</select>
+									</div>								
+								</div>
+								<div class="row">
+									<div class="col-md-4 mb-3 mt-3">
+										<label for="scope">Encryption Scope</label>
+										<select class="custom-select no-valid-validate" id="scope" name="scope" required>
+											<option value="string" selected>String</option>
+											<option value="file">File Property Values</option>
+											<option value="file-level">All File Content</option>
+										</select>
+									</div>									
+									<div class="col-md-4 mb-3 mt-3">
+										<label for="key">Key</label>
+										<input type="text" class="form-control no-valid-validate" id="key" name="key" required/>
+									</div>									
+									<div class="col-md-4 mb-3 mt-3">
+										<label for="value">Value</label>
+										<input type="text" class="form-control no-valid-validate" id="value" name="value" required/>
+									</div>									
+								</div>	
+								
+                                <div class="row">
+                                    <div class="col-md-4 mt-3"></div>									
+									<div class="col-md-4 mt-3">
+										<label for="input-file">Input Property File</label>
+										<div class="custom-file">
+										  <input type="file" class="custom-file-input" id="input-file" name="input-file" required>
+										  <label class="custom-file-label" for="input-file">Choose file</label>
+										</div>
+									</div>
+									<div class="col-md-4 mb-3 mt-3">
+										<label for="value">Output File Name</label>
+										<input type="text" class="form-control no-valid-validate" id="output-file-name" placeholder="secure-properties" name="output-file-name"/>
+									</div>									
+                                </div>					
+								
+								<hr class="mb-3" />
+								<input id="btn-submit" class="btn btn-primary btn-lg btn-block"  type="submit" name="btn-submit" value="Encrypt" />
+								<input type="hidden" id="object-key" name="object-key"/>
+							  </form>
+					  </div>
+                    </div>
+				</div>                  
+            </div>
+            <hr class="mb-3" />
+
+			<div class="row">
+				<div class="col-12 text-center">
+					<div class="card">
+						<div class="card-header">
+							<h6>Output</h6>
+						</div>
+						<div class="card-body">
+							<p id="output"></p>
+						</div>
+					</div>
+		
+				</div>
+			</div>
+			
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">&copy; 2022 Company</p>
+				   <ul class="list-inline">
+                    <li class="list-inline-item"><a href="https://github.com/apurbagiri" class="link-primary">apurbagiri</a></li>
+                  </ul>
+            </footer>
+        </div>
+
+		<!-- JavaScripts (in sequence)-->
+        <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha384-i61gTtaoovXtAbKjo903+O55Jkn2+RtzHtvNez+yI49HAASvznhe9sZyjaSHTau9" crossorigin="anonymous" ></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js" integrity="sha512-ubuT8Z88WxezgSqf3RLuNi5lmjstiJcyezx34yIU2gAHonIi27Na7atqzUZCOoY4CExaoFumzOsFQ2Ch+I/HCw==" crossorigin="anonymous"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>        
+		<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+<script>
+		
+		$(document).ready(function () {
+		  bsCustomFileInput.init()
+		  retrieveSession();
+		  updateLabels();
+		  setEncryptionScope();
+		$("#btn-submit").click(function(){
+			$('#option-form').addClass('was-validated');
+		});
+		})
+
+		$('#operation').change(function(){
+			updateLabels();
+		})
+		
+		$('#scope').change(function(){
+			setEncryptionScope();
+		})
+
+		$("form :input").change(function() {
+		  sessionStorage.setItem($(this).attr('id'), $(this).val());		  
+		});
+	
+		$("#option-form").submit(function (event) {
+			event.preventDefault();			
+			$("#output").text("");
+			$("#btn-submit").prop("disabled", true);
+  			processRequest(this);
+		});
+	
+		function processRequest(context){
+			var formData = new FormData(context);							
+			var scope = formData.get('scope');
+			var method = $(context).attr("method");
+			var uri = $(context).attr("action") + scope;
+			if(scope == "string"){
+				processString(uri, method, formData);
+			} else if(scope == 'file' || scope == 'file-level') {
+				processFile(uri, method, formData)
+			} else {
+				setErrorOutput();
+				$("#btn-submit").prop("disabled", false);				
+				$("#output").text("Invalid scope for operation.");
+			}
+		}
+	
+		function processString(uri, method, formData) {
+		    $.ajax({
+				url: uri,
+				type: method,
+				data: formData,
+				contentType: false,
+				cache: false,
+				processData: false,
+				success: function (data) {
+				  console.log("SUCCESS: ", data);
+				  setSuccessOutput();
+				  $("#output").text(data.output);
+				  $("#btn-submit").prop("disabled", false);
+				},
+				error: function (e) {
+				    console.log("ERROR: ", e);
+					$("#btn-submit").prop("disabled", false);					
+					setErrorOutput();
+					$("#output").text(e.responseJSON.message);
+					}
+			}); 		
+		}
+		
+		function processFile(uri, method, formData) {
+			$.ajax({
+				url: uri,
+				type: method,
+				data: formData,
+				contentType: false,
+				cache: false,
+				processData: false,
+				success: 
+					function(responseObj, status, xhr){
+						var filename = "";
+						var disposition = xhr.getResponseHeader('Content-Disposition');
+						if (disposition && disposition.indexOf('attachment') !== -1) {
+							var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+							var matches = filenameRegex.exec(disposition);
+							if (matches != null && matches[1]) filename = matches[1].replace(/['"]/g, '');
+						}
+						var type = xhr.getResponseHeader('Content-Type');
+						var blob = new Blob([responseObj], { type: type });
+						
+						if(typeof window.navigator.msSaveBlob !== 'undefined'){
+							window.navigator.msSaveBlob(blob, filename);
+						}
+						else {
+							var URL = window.URL || window.webkitURL;
+							var downloadUrl = URL.createObjectURL(blob);
+							
+							if(filename) {
+								var a = document.createElement("a");
+								if (typeof a.download === 'undefined') {
+									window.location.href = downloadUrl;
+								} else {
+									a.href = downloadUrl;
+									a.download = filename;
+									document.body.appendChild(a);
+									a.click();
+									document.body.removeChild(a);
+								}							
+							
+							} else {
+								window.location.href = downloadUrl;
+							}
+							
+							setTimeout(function () { URL.revokeObjectURL(downloadUrl); }, 100);
+						}
+						
+						setFileSuccessOutput();
+						$("#output").text("File downloaded successfully");
+						$("#btn-submit").prop("disabled", false);
+					},
+				error: 
+					function (e){
+					  console.log("ERROR : ", e);
+					  $("#btn-submit").prop("disabled", false);								  
+					  setErrorOutput();
+					  $("#output").text(e.responseJSON.message);
+					}
+				});	
+		}
+
+		
+		function setEncryptionScope(){
+			var scopeVal = $('#scope').val();
+			if(scopeVal == 'file' || scopeVal == 'file-level'){
+				enableFileMode();
+			} else{
+				enableStringMode();
+			}			
+		}		
+		
+		function enableStringMode(){
+			$("#value").val("");
+			$("#value").prop("disabled", false);
+			
+			resetFileInput();
+			$("#input-file").prop("disabled", true);
+			
+			$("#output-file-name").val("");
+			$("#output-file-name").attr('placeholder', '');
+			$("#output-file-name").prop("disabled", true);
+		}
+		
+		function enableFileMode(){
+			$("#value").val("");
+			$("#value").prop("disabled", true);
+			
+			resetFileInput();
+			$("#input-file").prop("disabled", false);
+			
+			$("#output-file-name").val("");
+			$("#output-file-name").attr('placeholder', 'secure-properties');
+			$("#output-file-name").prop("disabled", false);
+		}
+		
+		function resetFileInput(){
+			$("#input-file").val('');
+			bsCustomFileInput.destroy();
+			bsCustomFileInput.init();
+		}
+		
+		function updateLabels(){
+			$('#btn-submit').val($('#operation option:selected').text());
+		}
+		
+		function retrieveSession(){
+			$("#operation").val((sessionStorage.getItem("operation") === null)? "encrypt" : sessionStorage.getItem("operation"));
+			$("#algorithm").val((sessionStorage.getItem("algorithm") === null)? "AES" : sessionStorage.getItem("algorithm"));
+			$("#mode").val((sessionStorage.getItem("mode") === null)? "CBC" : sessionStorage.getItem("mode"));
+			$("#scope").val((sessionStorage.getItem("scope") === null)? "string" : sessionStorage.getItem("scope"));
+			$("#key").val(sessionStorage.getItem("key"));
+		}
+		
+		function setErrorOutput(){
+			$("#output").removeClass("text-muted");
+			$("#output").removeClass("text-primary");
+			$("#output").addClass("text-danger");
+		}
+
+		function setSuccessOutput(){
+			$("#output").removeClass("text-danger");
+			$("#output").removeClass("text-primary");
+			$("#output").addClass("text-muted");
+		}
+		
+		function setFileSuccessOutput(){			
+			$("#output").removeClass("text-danger");
+			$("#output").removeClass("text-muted");
+			$("#output").addClass("text-primary");
+		}
+		
+		
+</script>
+
+    </body>
+</html>
