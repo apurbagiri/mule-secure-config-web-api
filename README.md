@@ -43,6 +43,14 @@ http://localhost:8081/console/
 6. Click on `Encrypt` or `Decrypt` button to apply the desired operation.
 7. For `String` scoped encryption, the encrypted/decrypted value will be displayed in the `Output` window at the bottom of the Web UI. For `File Property Value` or `All File Content` scoped encryption, the encrypted/decrypted property file will be downloaded.
 
+## Features
+
+1. Uses java to implement supported operations & encryption types: `string`, `file` & `file-level`
+2. Can encrypt/decrypt both `.properties` file & `.yaml` file
+3. Error messages returned during operation are clearly shown in `Output` section
+4. Due to nature of operation, no sensitve values are logged
+
+To create secure properties within a MuleSoft application, please follow [this](https://docs.mulesoft.com/mule-runtime/4.4/secure-configuration-properties)
 
 <br />
 
