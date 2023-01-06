@@ -34,7 +34,27 @@
 				outline: 0;
 				box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 			}	
+			
+			.btn-copy {
+				position: absolute;
+				top: .5rem;
+				right: .5rem;
+				z-index: 10;
+				display: block;
+				padding: .25rem .5rem;
+				font-size: 75%;
+				color: #818a91;
+				cursor: pointer;
+				background-color: transparent;
+				border: 0;
+				border-radius: .25rem;				
+			}
 
+			.btn-copy:hover {
+				color: #fff;
+				background-color: #027de7;
+			}
+			
 		</style>
 
 		<title>MuleSoft Secure Properties Tool</title>
@@ -133,6 +153,7 @@
 				<div class="col-12 text-center">
 					<div class="card">
 						<div class="card-header">
+							<button id="btn-copy" class="btn btn-copy" data-toggle="tooltip" data-placement="top" title="Copy to clipboard">Copy</button>
 							<h6>Output</h6>
 						</div>
 						<div class="card-body">
@@ -163,9 +184,10 @@
 		  retrieveSession();
 		  updateLabels();
 		  setEncryptionScope();
-		$("#btn-submit").click(function(){
+		  $('[data-toggle="tooltip"]').tooltip();
+		  $("#btn-submit").click(function(){
 			$('#option-form').addClass('was-validated');
-		});
+		  });
 		})
 
 		$('#operation').change(function(){
@@ -185,6 +207,10 @@
 			$("#output").text("");
 			$("#btn-submit").prop("disabled", true);
   			processRequest(this);
+		});
+
+		$("#btn-copy").click(function() {
+			copyToClipboard();
 		});
 	
 		function processRequest(context){
@@ -286,6 +312,55 @@
 				});	
 		}
 
+		function copyToClipboard(){
+			var tooltipTitle = $("#btn-copy").attr('data-original-title');
+			if($("#output").text()== ''){
+				$("#btn-copy").attr('data-original-title', "Nothing to copy").tooltip('show');
+				$("#btn-copy").attr('data-original-title', tooltipTitle);
+			} else{
+				if (!navigator.clipboard){
+					copyToClipbboardClassic()
+				} else{
+					navigator.clipboard.writeText($("#output").text()).then(
+						function(){
+							console.log("Content copied to clipboard");
+							$("#btn-copy").attr('data-original-title', "Copied").tooltip('show');
+							$("#btn-copy").attr('data-original-title', tooltipTitle);
+						})
+					  .catch(
+						 function() {
+							console.log("Error occurred while attempting to copy content to clipboard");
+							$("#btn-copy").attr('data-original-title', "Failed to copy").tooltip('show');
+							$("#btn-copy").attr('data-original-title', tooltipTitle);
+					  });
+				}
+			}
+		}		
+
+		function copyToClipbboardClassic(){
+			console.log("Switching to classic copy()")
+			var tooltipTitle = $("#btn-copy").attr('data-original-title');
+			var isCopyCommandSupported = document.queryCommandSupported('copy');
+			if(isCopyCommandSupported){
+				var contentElement = document.createElement("textarea");
+				contentElement.value = $("#output").text();
+				document.body.appendChild(contentElement);
+				contentElement.select();
+				try{
+					var isCopySuccess = document.execCommand('copy');
+					var updatedTooltipTitle = isCopySuccess ? "Copied" : "Failed to copy"
+					console.log("Content copied to clipboard");
+					$("#btn-copy").attr('data-original-title', updatedTooltipTitle).tooltip('show');
+				} catch (e) {
+					console.log("COPY ERROR : ", e);
+					$("#btn-copy").attr('data-original-title', "Failed to copy").tooltip('show');				
+				}					
+				document.body.removeChild(contentElement);		
+			} else{
+				window.prompt("Press Ctrl+C or Command+C to copy", $("#output").text());
+			}
+			$("#btn-copy").attr('data-original-title', tooltipTitle);
+		}
 		
 		function setEncryptionScope(){
 			var scopeVal = $('#scope').val();
