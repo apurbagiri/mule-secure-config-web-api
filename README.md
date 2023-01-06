@@ -58,4 +58,5 @@ To create secure properties within a MuleSoft application, please follow [this](
 
 ## Web UI Interface
 
-![image](https://user-images.githubusercontent.com/1264854/210201629-14f1b73e-2d55-4809-9992-101bac3c95ae.png)
+![image](https://user-images.githubusercontent.com/1264854/211013646-a1b83c53-c78a-45e3-a7ca-b542eed7bdc4.png)
+
